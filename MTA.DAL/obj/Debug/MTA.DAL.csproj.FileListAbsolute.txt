@@ -1,0 +1,11 @@
+C:\Users\MAG\source\repos\MTA\MTA.DAL\bin\Debug\MTA.DAL.dll.config
+C:\Users\MAG\source\repos\MTA\MTA.DAL\bin\Debug\MTA.DAL.dll
+C:\Users\MAG\source\repos\MTA\MTA.DAL\bin\Debug\MTA.DAL.pdb
+C:\Users\MAG\source\repos\MTA\MTA.DAL\bin\Debug\EntityFramework.dll
+C:\Users\MAG\source\repos\MTA\MTA.DAL\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\MAG\source\repos\MTA\MTA.DAL\bin\Debug\EntityFramework.xml
+C:\Users\MAG\source\repos\MTA\MTA.DAL\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\MAG\source\repos\MTA\MTA.DAL\obj\Debug\MTA.DAL.csprojResolveAssemblyReference.cache
+C:\Users\MAG\source\repos\MTA\MTA.DAL\obj\Debug\MTA.DAL.csproj.CoreCompileInputs.cache
+C:\Users\MAG\source\repos\MTA\MTA.DAL\obj\Debug\MTA.DAL.dll
+C:\Users\MAG\source\repos\MTA\MTA.DAL\obj\Debug\MTA.DAL.pdb

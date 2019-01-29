@@ -1,0 +1,137 @@
+﻿@{ 
+    ViewBag.Title = "Home Page";
+}
+
+@model IEnumerable<MTA.WEB.Models.ProductViewModel>
+
+<br><br>
+<div>
+    <form method="post">
+        <div class="row">
+            <div class="col-xs-4">
+                <label for="begin">Диапазон анализа</label>  
+                <div class="row">
+                    <div class="col-xs-6"><input type="date" name="begin" id="begin" class="form-control" 
+                                                 value="@ViewBag.begin"></div>
+                    <div class="col-xs-6"><input type="date" name="end" id="end" class="form-control" 
+                                                 style="margin-left: -20px;" value="@ViewBag.end"></div>
+                </div>
+            </div> 
+            <div class="col-xs-4">
+                <label for="method">Метод прогнозирования</label>
+                <select id="method" name="method" class="form-control" style="max-width: 340px;">
+                    <option value="1">Метод наименьших квадратов</option>
+                    <option value="2">Метод скользящей средней</option>
+                    <option value="3">Метод экспоненциального сглаживания</option>
+                </select>
+            </div>
+            <div class="col-xs-4">
+                <label for="depth">Глубина прогноза</label>
+                <div class="row">
+                    <div class="col-xs-6"><input type="number" name="depth" id="depth" class="form-control" step="1" 
+                                             min="1" max="4" value="1"></div>
+                    <div class="col-xs-6"><button type="submit" class="btn btn-primary">Прогноз</button></div>
+                </div>
+            </div>
+        </div>
+        @{ 
+            for (int count = 0; count < Model.Count(); count++)
+            {
+                for (int j = 0; j < ViewBag.end.Year - ViewBag.begin.Year + 1; j++)
+                {
+                    <input type="hidden" value="@ViewBag.productSamples[count, j]" name="productSamples">
+                    <input type="hidden" value="@ViewBag.employeeSamples[count, j]" name="employeeSamples">
+                }
+            }
+        }  
+    </form>
+</div>
+<br><br>
+<div id="accordion2" class="accordion">
+    <div class="accordion-group">
+        <div class="accordion-heading">
+            <a class="accordion-toggle btn btn-default" href="#collapseOne" data-toggle="collapse" data-parent="#accordion2" >
+             Количество произведённой продукции &nbsp; <span class="glyphicon glyphicon-chevron-down"></span>
+            </a>
+        </div>
+        <div id="collapseOne" class="accordion-body collapse in" style="margin-top: 5px;">
+            <div class="accordion-inner">
+                <div class="panel panel-default" style="width: 1055px;">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Наименование</th>
+                                <th>Ед. измерения</th>
+                                @for (int date = ViewBag.begin.Year; date <= ViewBag.end.Year; date++)
+                                {
+                                    <th>@date</th>
+                                }
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int counter = 0;
+                            }
+                            @foreach (MTA.WEB.Models.ProductViewModel product in Model)
+                            {
+                                <tr>
+                                    <td>@product.Name</td>
+                                    <td>@product.Unit</td>
+                                    @for (int j = 0; j < ViewBag.end.Year - ViewBag.begin.Year + 1; j++)
+                                    {
+                                        <td>@ViewBag.productSamples[counter, j]</td>
+                                    }
+                                </tr>
+                                counter++;
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="accordion-group">
+        <div class="accordion-heading">
+            <a class="accordion-toggle btn btn-default" href="#collapseTwo" data-toggle="collapse" data-parent="#accordion2"
+               style="width: 303px; text-align: left">
+              Количество трудовых ресурсов 
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp;
+                <span class="glyphicon glyphicon-chevron-down"></span>
+            </a>
+        </div>
+        <div id="collapseTwo" class="accordion-body collapse" style="margin-top: 5px;>
+            <div class="accordion-inner">
+                <div class="panel panel-default" style="width: 1055px;">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Наименование</th>
+                                @for (int date = ViewBag.begin.Year; date <= ViewBag.end.Year; date++)
+                                {
+                                    <th>@date</th>
+                                }
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int i = 0;
+                            }
+                            @foreach (MTA.WEB.Models.ProductViewModel product in Model)
+                            {
+                                <tr>
+                                    <td>@product.Name</td>
+                                    @for (int j = 0; j < ViewBag.end.Year - ViewBag.begin.Year + 1; j++)
+                                    {
+                                        <td>@ViewBag.employeeSamples[i, j]</td>
+                                    }
+                                </tr>
+                                i++;
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

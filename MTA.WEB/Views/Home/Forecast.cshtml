@@ -1,0 +1,99 @@
+﻿
+@{
+    ViewBag.Title = "Forecast";
+}
+
+@model IEnumerable<MTA.WEB.Models.ProductViewModel>
+
+<br><br>
+<div>
+    <form method="post">
+        <div class="row">
+            <div class="col-xs-4">
+                <label for="begin">Диапазон анализа</label>
+                <div class="row">
+                    <div class="col-xs-6"><input type="date" name="begin" id="begin" class="form-control"></div>
+                    <div class="col-xs-6">
+                        <input type="date" name="end" id="end" class="form-control"
+                               style="margin-left: -20px;">
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-4">
+                <label for="method">Метод прогнозирования</label>
+                <select id="method" name="method" class="form-control" style="max-width: 340px;">
+                    <option value="1">Метод наименьших квадратов</option>
+                    <option value="2">Метод скользящей средней</option>
+                    <option value="3">Метод экспоненциального сглаживания</option>
+                </select>
+            </div>
+            <div class="col-xs-4">
+                <label for="depth">Глубина прогноза</label>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <input type="number" name="depth" id="depth" class="form-control" step="1"
+                               min="1" max="4" value="1">
+                    </div>
+                    <div class="col-xs-6"><button type="submit" class="btn btn-primary">Прогноз</button></div>
+                </div>
+            </div>
+        </div>
+        @{
+            for (int count = 0; count < Model.Count(); count++)
+            {
+                for (int j = 0; j < ViewBag.end.Year - ViewBag.begin.Year + 1; j++)
+                {
+                    <input type="hidden" value="@ViewBag.resultProductSamples[count, j]" name="productSamples">
+                    <input type="hidden" value="@ViewBag.resultPerfomanceSamples[count, j]" name="perfomanceSamples">
+                    <input type="hidden" value="@ViewBag.resultEmployeeSamples[count, j]" name="employeeSamples">
+                }
+            }
+        }  
+    </form>
+</div>
+<br><br>
+<div class="panel panel-default" style="width: 1055px;">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Наименование</th>
+                <th>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</th>
+                <th>Ед. измерения</th>
+                <th>Прогноз производства</th>
+                <th>Прогноз труд. ресурсов</th>
+                <th>Дефицит труд. ресурсов</th>
+                <th>Ср. ошибка прогноза </th>
+            </tr>
+        </thead>
+        <tbody>
+            @{ 
+                int counter = 0;
+                int productForecast = 0;
+                int employeeForecast = 0;
+                string error = "";
+                int deficit = 0;
+            }
+
+            @foreach (MTA.WEB.Models.ProductViewModel product in Model)
+            {
+                productForecast = (int) @ViewBag.productForecast[counter].forecast;
+                employeeForecast = (int) @ViewBag.employeeForecast[counter];
+                deficit = (int) @ViewBag.deficit[counter];
+                error = String.Format("{0:0.00}", @ViewBag.productForecast[counter].error);
+
+                <tr>
+                    <td>@product.Name</td>
+                    <td></td>
+                    <td>@product.Unit</td>
+                    <td>@productForecast</td>
+                    <td>@employeeForecast</td>
+                    <td>@deficit</td>
+                    <td>@error</td>
+                </tr>
+                counter++;
+            }
+        </tbody>
+    </table>
+</div>
+<br><br>
+
